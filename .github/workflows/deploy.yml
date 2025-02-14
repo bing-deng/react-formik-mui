@@ -28,13 +28,16 @@ jobs:
         env:
           GITHUB_PAGES: 'true'
 
-      - name: Configure Pages
+      - name: Prepare for deployment
         run: |
-          touch dist/.nojekyll  # 防止 GitHub Pages 忽略下划线开头的文件
+          touch dist/.nojekyll
+          cp dist/index.html dist/404.html
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
           branch: gh-pages
-          clean: true  # 清理旧的构建文件 
+          clean: true  # 清理旧的构建文件
+          clean-exclude: |
+            .nojekyll 
