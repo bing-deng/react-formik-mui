@@ -21,15 +21,20 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci  # 使用 ci 而不是 install 以确保一致性
 
       - name: Build
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
 
+      - name: Configure Pages
+        run: |
+          touch dist/.nojekyll  # 防止 GitHub Pages 忽略下划线开头的文件
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
-          branch: gh-pages 
+          branch: gh-pages
+          clean: true  # 清理旧的构建文件 
